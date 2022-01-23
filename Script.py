@@ -1,14 +1,14 @@
 class script(object):
-    START_TXT = """<b>ഞാൻ ഒരു 𝐀𝐔𝐓𝐎 𝐅𝐈𝐋𝐓𝐄𝐑 𝐁𝐎𝐓 ആണ്, എന്റെ ഉടമസ്ഥർ <a href=https://t.me/cinemavilla>𝘾𝙄𝙉𝙀𝙈𝘼𝙑𝙄𝙇𝙇𝘼 𝙏𝙀𝘼𝙈</a> ആണ്, നിങ്ങൾക്കും നിങ്ങളുടെ ഗ്രൂപ്പുകളിൽ ഇപ്പോൾ എന്നെ ഉപയോഗിക്കാവുന്നതാണ്</b>"""
+    START_TXT = """<i>ഞാൻ ഒരു 𝐀𝐔𝐓𝐎 𝐅𝐈𝐋𝐓𝐄𝐑 𝐁𝐎𝐓 ആണ്, എന്റെ ഉടമസ്ഥർ <a href=https://t.me/cinemavilla>𝘾𝙄𝙉𝙀𝙈𝘼𝙑𝙄𝙇𝙇𝘼 𝙏𝙀𝘼𝙈</a> ആണ്, നിങ്ങൾക്കും നിങ്ങളുടെ ഗ്രൂപ്പുകളിൽ ഇപ്പോൾ എന്നെ ഉപയോഗിക്കാവുന്നതാണ്</i>"""
     HELP_TXT = """<i>Hey</i> {}
 <i>Here is the help for my commands.</i>"""
-    ABOUT_TXT = """<b><i>➥ Owner: <a href=https://t.me/Kuruthamkettavan>സാത്താൻ👿</a>
+    ABOUT_TXT = """<i>➥ Owner: <a href=https://t.me/Kuruthamkettavan>സാത്താൻ👿</a>
 ➥ Library: <a href=https://docs.pyrogram.org/>Pyrogram Asyncio 1.13.0</a>
 ➥ Language: <a href=https://www.python.org/>Python3</a>
 ➥ Database: <a href=https://www.mongodb.com/cloud/atlas>mongoDB</a>
 ➥ server: <a href=https://railway.app/>Railway</a>
 ➥ Build Status: v1.0.1 [ 𝙱𝙴𝚃𝙰 ]
-➥ Maintained By: <a href=https://t.me/NeganX>Negan</a></i></b>"""
+➥ Maintained By: <a href=https://t.me/NeganX>Negan</a></i>"""
     SOURCE_TXT = """<i>ഞാൻ ഒരു 𝐀𝐔𝐓𝐎 𝐅𝐈𝐋𝐓𝐄𝐑 𝐁𝐎𝐓 ആണ്, എന്റെ ഉടമസ്ഥർ 𝘾𝙄𝙉𝙀𝙈𝘼𝙑𝙄𝙇𝙇𝘼 𝙏𝙀𝘼𝙈 ആണ്, നിങ്ങൾക്കും നിങ്ങളുടെ ഗ്രൂപ്പുകളിൽ ഇപ്പോൾ എന്നെ ഉപയോഗിക്കാവുന്നതാണ്</i>"""
     MANUELFILTER_TXT = """Help: <b>Filters</b>
 
@@ -61,7 +61,7 @@ class script(object):
     EXTRAMOD_TXT = """Help: <b>Extra Modules</b>
 
 <b>NOTE:</b>
-these are the extra features of Mᴀsᴛᴇʀ ◢ ◤
+these are the extra features of this bot
 
 <b>Commands and Usage:</b>
 • /id - <code>get id of a specifed user.</code>

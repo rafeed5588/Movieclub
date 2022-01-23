@@ -7,8 +7,8 @@ class script(object):
 ➥ Language: <a href=https://www.python.org/>Python3</a>
 ➥ Database: <a href=https://www.mongodb.com/cloud/atlas>mongoDB</a>
 ➥ server: <a href=https://railway.app/>Railway</a>
-➥ Build Status: v1.0.1 [ 𝙱𝙴𝚃𝙰 ]
-➥ Maintained By: <a href=https://t.me/NeganX>Negan</a></i>"""
+➥ Maintained By: <a href=https://t.me/NeganX>Negan</a>
+➥ Build Status: v1.0.1 [ 𝙱𝙴𝚃𝙰 ]"""
     SOURCE_TXT = """<i>ഞാൻ ഒരു 𝐀𝐔𝐓𝐎 𝐅𝐈𝐋𝐓𝐄𝐑 𝐁𝐎𝐓 ആണ്, എന്റെ ഉടമസ്ഥർ 𝘾𝙄𝙉𝙀𝙈𝘼𝙑𝙄𝙇𝙇𝘼 𝙏𝙀𝘼𝙈 ആണ്, നിങ്ങൾക്കും നിങ്ങളുടെ ഗ്രൂപ്പുകളിൽ ഇപ്പോൾ എന്നെ ഉപയോഗിക്കാവുന്നതാണ്</i>"""
     MANUELFILTER_TXT = """Help: <b>Filters</b>
 

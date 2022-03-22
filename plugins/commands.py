@@ -86,7 +86,7 @@ async def start(client, message):
 
 🗣 In Order To Get The Movie Requested By You in Our Group, You Must Have To Join Our Official Channel First By Clicking " 📢 Join Channel 📢 " Button or the Link shown Below. After That, Click " 🔄 Try Again 🔄 " Button. I'll Send You That Movie 🙈
 
-👇 JOIN THIS CHANNEL & TRY AGAIN 👇
+👇 JOIN THIS CHANNEL & ClICK TRY AGAIN 👇
 
 [https://t.me/+44PoX-82itU1MTc1]__**""",
             reply_markup=InlineKeyboardMarkup(btn),

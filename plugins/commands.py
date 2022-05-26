@@ -88,7 +88,7 @@ async def start(client, message):
 
 👇 JOIN THIS CHANNEL & ClICK TRY AGAIN 👇
 
-[https://t.me/+f2pIO5Of9Xs3ZmVl]__**""",
+[https://t.me/+DedgZkjRXwo5YTk1]__**""",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode="markdown"
             )

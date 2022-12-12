@@ -104,7 +104,7 @@ async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="che
 
 👇 CLICK "REQUEST TO JOIN CHANNEL" THEN CLICK "TRY AGAIN" 👇
 
-[https://t.me/+2YkvlavDWYo4Yzdl]__**"""
+[https://t.me/+GU2pZnFLnoc2ZDdl]__**"""
 
         buttons = [
             [

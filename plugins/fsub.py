@@ -16,6 +16,7 @@ logger = getLogger(__name__)
 INVITE_LINK = None
 db = JoinReqs
 
+
 async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="checksub"):
 
     global INVITE_LINK
@@ -36,10 +37,18 @@ async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="che
     try:
         # Makes the bot a bit faster and also eliminates many issues realted to invite links.
         if INVITE_LINK is None:
-            invite_link = (await bot.create_chat_invite_link(
-                chat_id=(int(AUTH_CHANNEL) if not REQ_CHANNEL and not JOIN_REQS_DB else REQ_CHANNEL),
-                creates_join_request=True if REQ_CHANNEL and JOIN_REQS_DB else False
-            )).invite_link
+            invite_link = (
+                await bot.create_chat_invite_link(
+                    chat_id=(
+                        int(AUTH_CHANNEL)
+                        if not REQ_CHANNEL and not JOIN_REQS_DB
+                        else REQ_CHANNEL
+                    ),
+                    creates_join_request=True
+                    if REQ_CHANNEL and JOIN_REQS_DB
+                    else False,
+                )
+            ).invite_link
             INVITE_LINK = invite_link
             logger.info("Created Req link")
         else:
@@ -55,7 +64,7 @@ async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="che
         await update.reply(
             text="Something went Wrong.",
             parse_mode=enums.ParseMode.MARKDOWN,
-            disable_web_page_preview=True
+            disable_web_page_preview=True,
         )
         return False
 
@@ -71,7 +80,7 @@ async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="che
             await update.reply(
                 text="Something went Wrong.",
                 parse_mode=enums.ParseMode.MARKDOWN,
-                disable_web_page_preview=True
+                disable_web_page_preview=True,
             )
             return False
 
@@ -80,23 +89,27 @@ async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="che
             raise UserNotParticipant
         # Check if User is Already Joined Channel
         user = await bot.get_chat_member(
-                   chat_id=(int(AUTH_CHANNEL) if not REQ_CHANNEL and not db().isActive() else REQ_CHANNEL), 
-                   user_id=update.from_user.id
-               )
+            chat_id=(
+                int(AUTH_CHANNEL)
+                if not REQ_CHANNEL and not db().isActive()
+                else REQ_CHANNEL
+            ),
+            user_id=update.from_user.id,
+        )
         if user.status == "kicked":
             await bot.send_message(
                 chat_id=update.from_user.id,
                 text="Sorry Sir, You are Banned to use me.",
                 parse_mode=enums.ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
-                reply_to_message_id=update.message_id
+                reply_to_message_id=update.message_id,
             )
             return False
 
         else:
             return True
     except UserNotParticipant:
-        text="""**__♦️ READ THIS INSTRUCTION ♦️
+        text = """**__♦️ READ THIS INSTRUCTION ♦️
 
 🗣 നിങ്ങൾ ചോദിക്കുന്ന സിനിമകൾ നിങ്ങൾക്ക് ലഭിക്കണം എന്നുണ്ടെങ്കിൽ നിങ്ങൾ ഞങ്ങളുടെ ചാനലിലേക്ക് റിക്വസ്റ്റ് ചെയ്തിരിക്കണം. റിക്വസ്റ്റ് ചെയ്യാൻ " 📢 Request to Join Channel 📢 "എന്ന ബട്ടണിലോ താഴെ കാണുന്ന ലിങ്കിലോ ക്ലിക്ക് ചെയ്യാവുന്നതാണ്. ജോയിൻ ചെയ്ത ശേഷം " 🔄 Try Again 🔄 " എന്ന ബട്ടണിൽ അമർത്തിയാൽ നിങ്ങൾക്ക് ഞാൻ ആ സിനിമ അയച്ചു തരുന്നതാണ്..😍
 
@@ -107,14 +120,14 @@ async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="che
 [https://t.me/+zx9HoRpQylM1Yjg1]__**"""
 
         buttons = [
+            [InlineKeyboardButton("📢 Request to Join Channel 📢", url=invite_link)],
             [
-                InlineKeyboardButton("📢 Request to Join Channel 📢", url=invite_link)
+                InlineKeyboardButton(
+                    " � Try Again � ", callback_data=f"{mode}#{file_id}"
+                )
             ],
-            [
-                InlineKeyboardButton(" 🔄 Try Again 🔄 ", callback_data=f"{mode}#{file_id}")
-            ]
         ]
-        
+
         if file_id is False:
             buttons.pop()
 
@@ -137,7 +150,7 @@ async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="che
         await update.reply(
             text="Something went Wrong.",
             parse_mode=enums.ParseMode.MARKDOWN,
-            disable_web_page_preview=True
+            disable_web_page_preview=True,
         )
         return False
 
@@ -145,4 +158,3 @@ async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="che
 def set_global_invite(url: str):
     global INVITE_LINK
     INVITE_LINK = url
-

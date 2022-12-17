@@ -71,7 +71,7 @@ async def removeChannel(bot, message):
         }
     )
     if result.deleted_count:
-        await message.reply(
+        return await message.reply(
             f"{result.deleted_count} files successfully deleted from database"
         )
     return await message.reply("no files found from this channel")

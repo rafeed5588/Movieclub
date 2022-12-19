@@ -59,7 +59,14 @@ async def is_subscribed(bot, query):
         if user:
             return True
         else:
-            return False
+            try:
+                user = await bot.get_chat_member(REQ_CHANNEL, query.from_user.id)
+            except UserNotParticipant:
+                return False
+            except Exception as e:
+                logger.exception(e)
+                return False
+            return True
 
     if not AUTH_CHANNEL:
         return True

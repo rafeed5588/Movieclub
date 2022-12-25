@@ -3,45 +3,37 @@ import ast
 import asyncio
 import logging
 import re
+from datetime import datetime, timedelta
+from os import environ
 
 import pyrogram  # For eval(btn)
 from pyrogram import Client, enums, filters
-from pyrogram.errors import FloodWait, MessageNotModified, PeerIdInvalid, UserIsBlocked
-from pyrogram.errors.exceptions.bad_request_400 import (
-    MediaEmpty,
-    PhotoInvalidDimensions,
-    WebpageMediaEmpty,
-)
-from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.errors import (FloodWait, MessageNotModified, PeerIdInvalid,
+                             UserIsBlocked)
+from pyrogram.errors.exceptions.bad_request_400 import (MediaEmpty,
+                                                        PhotoInvalidDimensions,
+                                                        WebpageMediaEmpty)
+from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
+                            InlineKeyboardMarkup)
 
-from database.connections_mdb import (
-    active_connection,
-    all_connections,
-    delete_connection,
-    if_active,
-    make_active,
-    make_inactive,
-)
+from database.connections_mdb import (active_connection, all_connections,
+                                      delete_connection, if_active,
+                                      make_active, make_inactive)
 from database.filters_mdb import del_all, find_filter, get_filters
 from database.ia_filterdb import Media, get_file_details, get_search_results
 from database.users_chats_db import db
 from info import ADMINS, AUTH_CHANNEL, CUSTOM_FILE_CAPTION, REQ_CHANNEL
 from Script import script
-from utils import (
-    get_poster,
-    get_settings,
-    get_size,
-    is_subscribed,
-    save_group_settings,
-    search_gagala,
-    temp,
-)
+from utils import (get_poster, get_settings, get_size, is_subscribed,
+                   save_group_settings, scheduler, search_gagala, temp)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
 
 BUTTONS = {}
 SPELL_CHECK = {}
+
+DELETE_TIME = int(environ.get("DELETE_TIME", 600))
 
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
@@ -843,9 +835,10 @@ async def auto_filter(client, msg, spoll=False):
         )
     else:
         cap = f"Here is what i found for your query {search}"
+    __msg = None
     if imdb and imdb.get("poster"):
         try:
-            await message.reply_photo(
+            __msg = await message.reply_photo(
                 photo=imdb.get("poster"),
                 caption=cap[:1024],
                 reply_markup=InlineKeyboardMarkup(btn),
@@ -853,16 +846,29 @@ async def auto_filter(client, msg, spoll=False):
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get("poster")
             poster = pic.replace(".jpg", "._V1_UX360.jpg")
-            await message.reply_photo(
+            __msg = await message.reply_photo(
                 photo=poster, caption=cap[:1024], reply_markup=InlineKeyboardMarkup(btn)
             )
         except Exception as e:
             logger.exception(e)
-            await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn))
+            __msg = await message.reply_text(
+                cap, reply_markup=InlineKeyboardMarkup(btn)
+            )
     else:
-        await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn))
+        __msg = await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn))
     if spoll:
         await msg.message.delete()
+    if __msg:
+        scheduler.add_job(
+            _delete,
+            "date",
+            [client, __msg],
+            run_date=datetime.now() + timedelta(seconds=DELETE_TIME),
+        )
+
+
+async def _delete(bot, msg):
+    return await bot.delete_messages(msg.chat.id, msg.id)
 
 
 async def advantage_spell_chok(msg):
@@ -944,15 +950,21 @@ async def advantage_spell_chok(msg):
             )
         ]
     )
-    await msg.reply(
+    __msg = await msg.reply(
         "I couldn't find anything related to that\nDid you mean any one of these?",
         reply_markup=InlineKeyboardMarkup(btn),
+    )
+    scheduler.add_job(
+        __msg.delete,
+        "date",
+        run_date=datetime.now() + timedelta(seconds=DELETE_TIME),
     )
 
 
 async def manual_filters(client, message, text=False):
     group_id = message.chat.id
     name = text or message.text
+    __msg = None
     reply_id = message.reply_to_message_id if message.reply_to_message else message.id
     keywords = await get_filters(group_id)
     for keyword in reversed(sorted(keywords, key=len)):
@@ -967,12 +979,12 @@ async def manual_filters(client, message, text=False):
                 try:
                     if fileid == "None":
                         if btn == "[]":
-                            await client.send_message(
+                            __msg = await client.send_message(
                                 group_id, reply_text, disable_web_page_preview=True
                             )
                         else:
                             button = eval(btn)
-                            await client.send_message(
+                            __msg = await client.send_message(
                                 group_id,
                                 reply_text,
                                 disable_web_page_preview=True,
@@ -980,7 +992,7 @@ async def manual_filters(client, message, text=False):
                                 reply_to_message_id=reply_id,
                             )
                     elif btn == "[]":
-                        await client.send_cached_media(
+                        __msg = await client.send_cached_media(
                             group_id,
                             fileid,
                             caption=reply_text or "",
@@ -988,7 +1000,7 @@ async def manual_filters(client, message, text=False):
                         )
                     else:
                         button = eval(btn)
-                        await message.reply_cached_media(
+                        __msg = await message.reply_cached_media(
                             fileid,
                             caption=reply_text or "",
                             reply_markup=InlineKeyboardMarkup(button),
@@ -996,6 +1008,13 @@ async def manual_filters(client, message, text=False):
                         )
                 except Exception as e:
                     logger.exception(e)
+                if __msg:
+                    scheduler.add_job(
+                        _delete,
+                        "date",
+                        [client, __msg],
+                        run_date=datetime.now() + timedelta(seconds=DELETE_TIME),
+                    )
                 break
     else:
         return False

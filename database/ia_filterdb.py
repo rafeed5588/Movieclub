@@ -9,8 +9,7 @@ from pymongo.errors import DuplicateKeyError
 from pyrogram.file_id import FileId
 from umongo import Document, Instance, fields
 
-from info import (COLLECTION_NAME, DATABASE_NAME, DATABASE_URI,
-                  USE_CAPTION_FILTER)
+from info import COLLECTION_NAME, DATABASE_NAME, DATABASE_URI, USE_CAPTION_FILTER
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)

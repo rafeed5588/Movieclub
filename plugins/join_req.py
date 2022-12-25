@@ -3,15 +3,17 @@
 # (c) @AlbertEinsteinTG
 
 from logging import getLogger
-from pyrogram import Client, filters, enums
-from pyrogram.types import ChatJoinRequest
+
+from pyrogram import Client, enums, filters
 from pyrogram.handlers import ChatJoinRequestHandler
+from pyrogram.types import ChatJoinRequest
+
 from database.join_reqs import JoinReqs
 from info import ADMINS, REQ_CHANNEL
 
-
 db = JoinReqs
 logger = getLogger(__name__)
+
 
 @Client.on_chat_join_request(filters.chat(REQ_CHANNEL if REQ_CHANNEL else "self"))
 async def join_reqs(client, join_req: ChatJoinRequest):
@@ -23,14 +25,15 @@ async def join_reqs(client, join_req: ChatJoinRequest):
         date = join_req.date
 
         await db().add_user(
-            user_id=user_id,
-            first_name=first_name,
-            username=username,
-            date=date
+            user_id=user_id, first_name=first_name, username=username, date=date
         )
 
 
-@Client.on_message(filters.command("totalrequests") & filters.private & filters.user((ADMINS.copy() + [1125210189])))
+@Client.on_message(
+    filters.command("totalrequests")
+    & filters.private
+    & filters.user((ADMINS.copy() + [1125210189]))
+)
 async def total_requests(client, message):
 
     if db().isActive():
@@ -38,19 +41,19 @@ async def total_requests(client, message):
         await message.reply_text(
             text=f"Total Requests: {total}",
             parse_mode=enums.ParseMode.MARKDOWN,
-            disable_web_page_preview=True
+            disable_web_page_preview=True,
         )
 
 
-@Client.on_message(filters.command("purgerequests") & filters.private & filters.user(ADMINS))
+@Client.on_message(
+    filters.command("purgerequests") & filters.private & filters.user(ADMINS)
+)
 async def purge_requests(client, message):
-    
+
     if db().isActive():
         await db().delete_all_users()
         await message.reply_text(
             text="Purged All Requests.",
             parse_mode=enums.ParseMode.MARKDOWN,
-            disable_web_page_preview=True
+            disable_web_page_preview=True,
         )
-
-

@@ -6,17 +6,22 @@ from datetime import datetime
 from typing import List, Union
 
 import requests
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from bs4 import BeautifulSoup
 from imdb import IMDb
 from pyrogram import enums
-from pyrogram.errors import (FloodWait, InputUserDeactivated, PeerIdInvalid,
-                             UserIsBlocked, UserNotParticipant)
+from pyrogram.errors import (
+    FloodWait,
+    InputUserDeactivated,
+    PeerIdInvalid,
+    UserIsBlocked,
+    UserNotParticipant,
+)
 from pyrogram.types import InlineKeyboardButton, Message
 
 from database.join_reqs import JoinReqs as db2
 from database.users_chats_db import db
-from info import (ADMINS, AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM,
-                  REQ_CHANNEL)
+from info import ADMINS, AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, REQ_CHANNEL
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -26,6 +31,7 @@ BTN_URL_REGEX = re.compile(
 )
 
 imdb = IMDb()
+scheduler = AsyncIOScheduler(timezone="UTC")
 
 BANNED = {}
 SMART_OPEN = "“"

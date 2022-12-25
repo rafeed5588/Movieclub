@@ -3,12 +3,14 @@
 # (c) @AlbertEinsteinTG
 
 import motor.motor_asyncio
+
 from info import REQ_CHANNEL
 
-class JoinReqs:
 
+class JoinReqs:
     def __init__(self):
         from info import JOIN_REQS_DB
+
         if JOIN_REQS_DB:
             self.client = motor.motor_asyncio.AsyncIOMotorClient(JOIN_REQS_DB)
             self.db = self.client["JoinReqs"]
@@ -26,7 +28,15 @@ class JoinReqs:
 
     async def add_user(self, user_id, first_name, username, date):
         try:
-            await self.col.insert_one({"_id": int(user_id),"user_id": int(user_id), "first_name": first_name, "username": username, "date": date})
+            await self.col.insert_one(
+                {
+                    "_id": int(user_id),
+                    "user_id": int(user_id),
+                    "first_name": first_name,
+                    "username": username,
+                    "date": date,
+                }
+            )
         except:
             pass
 
@@ -44,4 +54,3 @@ class JoinReqs:
 
     async def get_all_users_count(self):
         return await self.col.count_documents({})
-

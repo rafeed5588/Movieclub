@@ -38,7 +38,7 @@ async def gen_link_s(bot, message):
     ]:
         return await message.reply("Reply to a supported media")
     if message.has_protected_content and message.chat.id not in ADMINS:
-        return await message.reply("ഇത് സിനിമ ചോദിച്ചവർക്കുള്ള ബട്ടൺ ആണ്, നിങ്ങൾക്ക് ആവിശ്യമുള്ള സിനിമ ചോദിച്ചു അതിൽ ഈ ബട്ടൺ ക്ലിക്ക് ചെയ്യുക")
+        return await message.reply(" ഇത് സിനിമ ")
     file_id, ref = unpack_new_file_id((getattr(replied, file_type)).file_id)
     string = "filep_" if message.text.lower().strip() == "/plink" else "file_"
     string += file_id

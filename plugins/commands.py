@@ -391,11 +391,7 @@ async def delete(bot, message):
         )
         return
 
-    for file_type in (
-        enums.MessageMediaType.DOCUMENT,
-        enums.MessageMediaType.VIDEO,
-        enums.MessageMediaType.AUDIO,
-    ):
+    for file_type in ("document", "video", "audio"):
         media = getattr(reply, file_type, None)
         if media is not None:
             break
@@ -437,7 +433,6 @@ async def delete(bot, message):
                 await msg.edit("File is successfully deleted from database")
             else:
                 await msg.edit("File not found in database")
-
 
 @Client.on_message(filters.command("deleteall") & filters.user(ADMINS))
 async def delete_all_index(bot, message):

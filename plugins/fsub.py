@@ -116,8 +116,7 @@ async def ForceSub(bot: Client, update: Message, file_id: str = False, mode="che
 🗣 In Order To Get The Movie Requested By You in Our Group, You Must Have To Request to join Our Official Channel First By Clicking " 📢 Request to Join Channel 📢 " Button or the Link shown Below. After That, Click " 🔄 Try Again 🔄 " Button. I'll Send You That Movie 🙈
 
 👇 CLICK "REQUEST TO JOIN CHANNEL" THEN CLICK "TRY AGAIN" 👇
-
-[https://t.me/+YqkQ4xYhhoZkZTA1]__**"""
+[]__**"""
 
         buttons = [
             [InlineKeyboardButton("📢 Request to Join Channel 📢", url=invite_link)],

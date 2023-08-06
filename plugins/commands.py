@@ -80,8 +80,8 @@ async def start(client, message):
             InlineKeyboardButton('ℹ️ Help', callback_data='help'),
             InlineKeyboardButton('😊 About', callback_data='about')
             ],[
-            InlineKeyboardButton('▶️ Youtube', url='https://youtube.com'),
-            InlineKeyboardButton('📷 Instagram', url='https://instagram.com')
+            InlineKeyboardButton('▶️ Youtube', url='https://youtube.com/@Movie_Club_Yt'),
+            InlineKeyboardButton('📷 Instagram', url='https://instagram.com/_r_a_f_e_e_d_?igshid=NTc4MTIwNjQ2YQ==')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
@@ -115,8 +115,8 @@ async def start(client, message):
             InlineKeyboardButton('ℹ️ Help', callback_data='help'),
             InlineKeyboardButton('😊 About', callback_data='about')
             ],[
-            InlineKeyboardButton('▶️ Youtube', url='https://youtube.com'),
-            InlineKeyboardButton('📷 Instagram', url='https://instagram.com')
+            InlineKeyboardButton('▶️ Youtube', url='https://youtube.com/@Movie_Club_Yt'),
+            InlineKeyboardButton('📷 Instagram', url='https://instagram.com/_r_a_f_e_e_d_?igshid=NTc4MTIwNjQ2YQ==')
         ]]        
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(

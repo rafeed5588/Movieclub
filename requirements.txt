@@ -9,3 +9,6 @@ bs4
 git+https://github.com/joelkb/cinemagoer
 python-dotenv
 apscheduler
+Flask==2.2.2
+gunicorn==20.1.0
+aiohttp==3.8.1

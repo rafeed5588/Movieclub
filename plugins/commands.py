@@ -71,32 +71,18 @@ async def start(client, message):
             script.LOG_TEXT_P.format(message.from_user.id, message.from_user.mention),
         )
     if len(message.command) != 2:
-        buttons = [
-            [
-                InlineKeyboardButton(
-                    "🔗 ᴏᴜʀ ᴄʜᴀɴɴᴇʟs ʟɪɴᴋs 🔗", url=f"https://t.me/CMV_Links"
-                )
-            ],
-            [
-                InlineKeyboardButton("📌 ᴍʏ ɢʀᴏᴜᴘ", url="https://t.me/CM_Villa"),
-                InlineKeyboardButton(
-                    "⚒️ ᴍʏ ᴏᴡɴᴇʀ", url="https://t.me/kuruthamkettavan"
-                ),
-            ],
-            [
-                InlineKeyboardButton("⚠️ ʜᴇʟᴘ", callback_data="help"),
-                InlineKeyboardButton("⚙️ ᴀʙᴏᴜᴛ", callback_data="about"),
-            ],
-            [
-                InlineKeyboardButton(
-                    "➕ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ➕",
-                    url=f"http://t.me/{temp.U_NAME}?startgroup=true",
-                )
-            ],
-        ]
+        buttons = [[
+            InlineKeyboardButton('➕ Add Me To Your Groups ➕', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+            ],[
+            InlineKeyboardButton('🔍 Search', switch_inline_query_current_chat=''),
+            InlineKeyboardButton('🤖 Updates', url='https://t.me/TeamEvamaria')
+            ],[
+            InlineKeyboardButton('ℹ️ Help', callback_data='help'),
+            InlineKeyboardButton('😊 About', callback_data='about')
+        ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply_video(
-            video=random.choice(PICS),
+        await message.reply_photo(
+            photo=random.choice(PICS),
             caption=script.START_TXT.format(
                 message.from_user.mention, temp.U_NAME, temp.B_NAME
             ),
@@ -117,32 +103,18 @@ async def start(client, message):
             await ForceSub(client, message)
             return
 
-        buttons = [
-            [
-                InlineKeyboardButton(
-                    "🔗 ᴏᴜʀ ᴄʜᴀɴɴᴇʟs ʟɪɴᴋs 🔗", url=f"https://t.me/CMV_Links"
-                )
-            ],
-            [
-                InlineKeyboardButton("📌 ᴍʏ ɢʀᴏᴜᴘ", url="https://t.me/CM_Villa"),
-                InlineKeyboardButton(
-                    "⚒️ ᴍʏ ᴏᴡɴᴇʀ", url="https://t.me/kuruthamkettavan"
-                ),
-            ],
-            [
-                InlineKeyboardButton("⚠️ ʜᴇʟᴘ", callback_data="help"),
-                InlineKeyboardButton("⚙️ ᴀʙᴏᴜᴛ", callback_data="about"),
-            ],
-            [
-                InlineKeyboardButton(
-                    "➕ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ➕",
-                    url=f"http://t.me/{temp.U_NAME}?startgroup=true",
-                )
-            ],
-        ]
+        buttons = [[
+            InlineKeyboardButton('➕ Add Me To Your Groups ➕', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+            ],[
+            InlineKeyboardButton('🔍 Search', switch_inline_query_current_chat=''),
+            InlineKeyboardButton('🤖 Updates', url='https://t.me/TeamEvamaria')
+            ],[
+            InlineKeyboardButton('ℹ️ Help', callback_data='help'),
+            InlineKeyboardButton('😊 About', callback_data='about')
+        ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply_video(
-            video=random.choice(PICS),
+        await message.reply_photo(
+            photo=random.choice(PICS),
             caption=script.START_TXT.format(
                 message.from_user.mention, temp.U_NAME, temp.B_NAME
             ),

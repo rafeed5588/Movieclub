@@ -159,4 +159,4 @@ async def vsong(client, message: Message):
     await pablo.delete()
     for files in (sedlyf, file_stark):
         if files and os.path.exists(files):
-            os.remove(files
+            os.remove(files)

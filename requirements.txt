@@ -17,4 +17,4 @@ youtube-search-python==1.4.6
 youtube-dl
 youtube_search
 wget
-
+aiofiles

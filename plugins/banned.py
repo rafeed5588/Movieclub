@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from database.users_chats_db import db
@@ -77,7 +77,7 @@ async def song(client, message):
     query = ' '.join(message.command[1:])
     print(query)
     m = await message.reply_text("**ѕєαrchíng чσur ѕσng...!**")
-    ydl_opts = {"format": "bestaudio[ext=m4a]"}
+    ydl_opts = {"format": "bestaudio[ext=mp3]"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
@@ -115,7 +115,7 @@ async def song(client, message):
         for i in range(len(dur_arr)-1, -1, -1):
             dur += (int(dur_arr[i]) * secmul)
             secmul *= 60
-        await message.reply_audio(audio_file, caption=rep, parse_mode='md',quote=False, title=title, duration=dur, performer=performer, thumb=thumb_name)
+        await message.reply_audio(audio_file, caption=rep, parse_mode=enums.ParseMode.MARKDOWN, quote=False, title=title, duration=dur, performer=performer, thumb=thumb_name)
         await m.delete()
     except Exception as e:
         await m.edit("**🚫 ᴇʀʀᴏʀ 🚫**")
@@ -189,8 +189,9 @@ async def vsong(client, message: Message):
         file_name=str(ytdl_data["title"]),
         thumb=sedlyf,
         caption=capy,
-        supports_streaming=True,        
-        reply_to_message_id=message.message_id 
+        supports_streaming=True,
+        parse_mode=enums.ParseMode.MARKDOWN,
+        reply_to_message_id=message.id
     )
     await pablo.delete()
     for files in (sedlyf, file_stark):

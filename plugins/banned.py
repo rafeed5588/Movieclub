@@ -77,7 +77,7 @@ async def song(client, message):
     query = ' '.join(message.command[1:])
     print(query)
     m = await message.reply_text("**ѕєαrchín чσur ѕσng...!**")
-    ydl_opts = {"format": "bestaudio[ext=mp3]"}  # Updated audio format to mp3
+    ydl_opts = {"format": "bestaudio[ext=m4a]"}  # Updated audio format to mp3
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
@@ -118,7 +118,7 @@ async def song(client, message):
         await message.reply_audio(audio_file, caption=rep, parse_mode=enums.ParseMode.MARKDOWN, quote=False, title=title, duration=dur, performer=performer, thumb=thumb_name)
         await m.delete()
     except Exception as e:
-        await m.edit("**🚫 ᴇʀʀᴏʀ 🚫**")
+        await m.edit("**🚫 ᴇʀʀᴏʀ 🚫 :(e)**")
         print(e)
 
     try:

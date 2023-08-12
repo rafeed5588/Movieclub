@@ -18,3 +18,4 @@ youtube_search
 wget
 aiofiles
 youtube_search_python
+future

@@ -46,6 +46,7 @@ async def grp_bd(bot, message):
     await bot.leave_chat(message.chat.id)
 
 
+from __future__ import unicode_literals
 
 import os
 import requests
@@ -63,29 +64,36 @@ from youtubesearchpython import SearchVideos
 import youtube_dl
 from yt_dlp import YoutubeDL
 
+import requests
+
 def time_to_seconds(time):
     stringt = str(time)
     return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(':'))))
 
+
 @Client.on_message(filters.command('song'))
-async def song(client, message):
+def song(client, message):
 
     user_id = message.from_user.id 
     user_name = message.from_user.first_name 
     rpk = "["+user_name+"](tg://user?id="+str(user_id)+")"
 
-    query = ' '.join(message.command[1:])
+    query = ''
+    for i in message.command[1:]:
+        query += ' ' + str(i)
     print(query)
-    m = await message.reply_text("**ѕєαrchín чσur ѕσng...!**")
-    ydl_opts = {"format": "bestaudio[ext=m4a]"}  # Updated audio format to mp3
+    m = message.reply("**ѕєαrchíng чσur ѕσng...!**")
+    ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
-        title = results[0]["title"][:40]
+        #print(results)
+        title = results[0]["title"][:40]       
         thumbnail = results[0]["thumbnails"][0]
         thumb_name = f'thumb{title}.jpg'
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
+
 
         performer = f"› ᴀᴊᴀx sᴏɴɢs ‹" 
         duration = results[0]["duration"]
@@ -93,12 +101,12 @@ async def song(client, message):
         views = results[0]["views"]
 
     except Exception as e:
-        await m.edit(
+        m.edit(
             "**𝙵𝙾𝚄𝙽𝙳 𝙽𝙾𝚃𝙷𝙸𝙽𝙶 𝙿𝙻𝙴𝙰𝚂𝙴 𝙲𝙾𝚁𝚁𝙴𝙲𝚃 𝚃𝙷𝙴 𝚂𝙿𝙴𝙻𝙻𝙸𝙽𝙶 𝙾𝚁 𝚂𝙴𝙰𝚁𝙲𝙷 𝙰𝙽𝚈 𝙾𝚃𝙷𝙴𝚁 𝚂𝙾𝙽𝙶**"
         )
         print(str(e))
         return
-    await m.edit("**dσwnlσαding чσur ѕσng...!**")
+    m.edit("**dσwnlσαdíng чσur ѕσng...!**")
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
@@ -115,10 +123,10 @@ async def song(client, message):
         for i in range(len(dur_arr)-1, -1, -1):
             dur += (int(dur_arr[i]) * secmul)
             secmul *= 60
-        await message.reply_audio(audio_file, caption=rep, parse_mode=enums.ParseMode.MARKDOWN, quote=False, title=title, duration=dur, performer=performer, thumb=thumb_name)
-        await m.delete()
+        message.reply_audio(audio_file, caption=rep, parse_mode=enums.ParseMode.MARKDOWN, quote=False, title=title, duration=dur, performer=performer, thumb=thumb_name)
+        m.delete()
     except Exception as e:
-        await m.edit("**🚫 ᴇʀʀᴏʀ 🚫 :(e)**")
+        m.edit("**🚫 ᴇʀʀᴏʀ 🚫**")
         print(e)
 
     try:
@@ -138,11 +146,14 @@ def get_text(message: Message) -> [None,str]:
     except IndexError:
         return None
 
+
 @Client.on_message(filters.command(["video", "mp4"]))
 async def vsong(client, message: Message):
     urlissed = get_text(message)
 
-    pablo = await message.reply(f"**sᴇᴀʀᴄʜɪɴɢ ʏᴏᴜʀ ᴠᴜᴅᴇᴏ** `{urlissed}`")
+    pablo = await client.send_message(
+        message.chat.id, f"**sᴇᴀʀᴄʜɪɴɢ ʏᴏᴜʀ ᴠᴜᴅᴇᴏ** `{urlissed}`"
+    )
     if not urlissed:
         await pablo.edit("Invalid Command Syntax Please Check help Menu To Know More!")
         return
@@ -190,7 +201,7 @@ async def vsong(client, message: Message):
         thumb=sedlyf,
         caption=capy,
         supports_streaming=True,
-        parse_mode=enums.ParseMode.MARKDOWN,
+        parse_mode=enums.ParseMode.MARKDOWN, 
         reply_to_message_id=message.id
     )
     await pablo.delete()

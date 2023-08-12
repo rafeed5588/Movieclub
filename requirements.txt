@@ -12,10 +12,8 @@ apscheduler
 Flask==2.2.2
 gunicorn==20.1.0
 aiohttp==3.8.1
-yt-dlp
-youtube-dl
-youtube_search
-wget
-aiofiles
+youtube_dl
 youtube_search_python
-future
+youtube_search
+requests
+ffmpeg-python

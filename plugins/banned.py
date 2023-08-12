@@ -46,8 +46,6 @@ async def grp_bd(bot, message):
     await bot.leave_chat(message.chat.id)
 
 
-from __future__ import unicode_literals
-
 import os
 import requests
 import aiohttp

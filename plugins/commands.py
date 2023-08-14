@@ -80,7 +80,7 @@ async def start(client, message):
             InlineKeyboardButton('ℹ️ Help', callback_data='help'),
             InlineKeyboardButton('😊 About', callback_data='about')
             ],[
-            InlineKeyboardButton('▶️ Youtube', url='https://youtube.com/@Movie_Club_Yt'),
+            InlineKeyboardButton('▶️ Youtube', url='https://www.youtube.com/@Movie_Club_Yt_'),
             InlineKeyboardButton('📷 Instagram', url='https://instagram.com/_r_a_f_e_e_d_?igshid=NTc4MTIwNjQ2YQ==')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
@@ -115,7 +115,7 @@ async def start(client, message):
             InlineKeyboardButton('ℹ️ Help', callback_data='help'),
             InlineKeyboardButton('😊 About', callback_data='about')
             ],[
-            InlineKeyboardButton('▶️ Youtube', url='https://youtube.com/@Movie_Club_Yt'),
+            InlineKeyboardButton('▶️ Youtube', url='https://www.youtube.com/@Movie_Club_Yt_'),
             InlineKeyboardButton('📷 Instagram', url='https://instagram.com/_r_a_f_e_e_d_?igshid=NTc4MTIwNjQ2YQ==')
         ]]        
         reply_markup = InlineKeyboardMarkup(buttons)

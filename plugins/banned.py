@@ -113,7 +113,7 @@ def song(client, message):
         rep = f"""
 **❖ ᴛɪᴛʟᴇ ›› [{title}]({link})**
 **❖ ᴅᴜʀᴀᴛɪᴏɴ ›› {duration}**
-**❖ sᴜʙsᴄʀɪʙᴇ ›› [movie club](https://youtube.com/@Movie_Club_YT)**
+**❖ sᴜʙsᴄʀɪʙᴇ ›› [movie club](https://www.youtube.com/@Movie_Club_Yt_)**
 **❖ ᴘᴏᴡᴇʀᴅ ʙʏ ›› [bot](https://t.me/rafeedrobot)**
 **❖ ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ ›› {rpk}**
 """
